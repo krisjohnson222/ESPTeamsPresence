@@ -174,6 +174,7 @@ void handleRoot() {
 	s += "<div class=\"nes-field mt-s\"><label for=\"name_field\">Tenant hostname / ID</label><input type=\"text\" id=\"name_field\" class=\"nes-input\" disabled value=\"" + String(paramTenantValue) +  "\"></div>";
 	s += "<div class=\"nes-field mt-s\"><label for=\"name_field\">Polling interval (sec)</label><input type=\"text\" id=\"name_field\" class=\"nes-input\" disabled value=\"" + String(paramPollIntervalValue) +  "\"></div>";
 	s += "<div class=\"nes-field mt-s\"><label for=\"name_field\">Number of LEDs</label><input type=\"text\" id=\"name_field\" class=\"nes-input\" disabled value=\"" + String(paramNumLedsValue) +  "\"></div>";
+	s += "<div class=\"nes-field mt-s\"><label for=\"name_field\">Data ouput pin</label><input type=\"text\" id=\"name_field\" class=\"nes-input\" disabled value=\"" + String(paramDataPinValue) +  "\"></div>";
 	s += "</section>";
 
 	s += "<section class=\"nes-container with-title mt\"><h3 class=\"title\">Memory usage</h3>";
@@ -207,10 +208,11 @@ void handleGetSettings() {
 	
 	const int capacity = JSON_OBJECT_SIZE(13);
 	StaticJsonDocument<capacity> responseDoc;
-	responseDoc["client_id"].set(paramClientIdValue);
+	responseDoc["client_id"].set(paramClientIdValue);F
 	responseDoc["tenant"].set(paramTenantValue);
 	responseDoc["poll_interval"].set(paramPollIntervalValue);
 	responseDoc["num_leds"].set(paramNumLedsValue);
+	responseDoc["data_pin"].set(paramDataPinValue);
 
 	responseDoc["heap"].set(ESP.getFreeHeap());
 	responseDoc["min_heap"].set(ESP.getMinFreeHeap());
@@ -270,6 +272,12 @@ boolean formValidator() {
 	if (l4 < 1)
 	{
 		paramNumLeds.errorMessage = "Please provide a value for the number of LEDs!";
+		valid = false;
+	}
+	int l5 = server.arg(paramDataPin.getId()).length();
+	if (l5 < 1)
+	{
+		paramDataPin.errorMessage = "Please select which IO pin will send LED data!";
 		valid = false;
 	}
 
