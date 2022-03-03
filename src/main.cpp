@@ -25,7 +25,7 @@
 
 // Global settings
 // #define NUMLEDS 16							// Number of LEDs on the strip (if not set via build flags)
-// #define DATAPIN 26							// GPIO pin used to drive the LED strip (20 == GPIO/D13) (if not set via build flags)
+#define DATAPIN 26							// GPIO pin used to drive the LED strip (20 == GPIO/D13) (if not set via build flags)
 // #define DISABLECERTCHECK 1					// Uncomment to disable https certificate checks (if not set via build flags)
 // #define STATUS_PIN LED_BUILTIN				// User builtin LED for status (if not set via build flags)
 #define DEFAULT_POLLING_PRESENCE_INTERVAL "30"	// Default interval to poll for presence info (seconds)
@@ -124,6 +124,7 @@ IotWebConfParameter paramClientId = IotWebConfParameter("Client-ID (Generic ID: 
 IotWebConfParameter paramTenant = IotWebConfParameter("Tenant hostname / ID", "tenantId", paramTenantValue, STRING_LEN, "text", "e.g. contoso.onmicrosoft.com");
 IotWebConfParameter paramPollInterval = IotWebConfParameter("Presence polling interval (sec) (default: 30)", "pollInterval", paramPollIntervalValue, INTEGER_LEN, "number", "10..300", DEFAULT_POLLING_PRESENCE_INTERVAL, "min='10' max='300' step='5'");
 IotWebConfParameter paramNumLeds = IotWebConfParameter("Number of LEDs (default: 16)", "numLeds", paramNumLedsValue, INTEGER_LEN, "number", "1..500", "16", "min='1' max='500' step='1'");
+IotWebConfParameter paramDataPin = IotWebConfParameter("Data Pin for LEDs (default: 26)", "DataPin", paramDataPinValue, INTEGER_LEN, "number", "1..40", "26", "min='1' max='40' step='1'");
 byte lastIotWebConfState;
 
 // HTTP client
@@ -289,7 +290,7 @@ void setPresenceAnimation() {
 	// Activity: Available, Away, BeRightBack, Busy, DoNotDisturb, InACall, InAConferenceCall, Inactive, InAMeeting, Offline, OffWork, OutOfOffice, PresenceUnknown, Presenting, UrgentInterruptionsOnly
 
 	if (activity.equals("Available")) {
-		setAnimation(0, FX_MODE_STATIC, GREEN);
+		setAnimation(0, FX_MODE_STATIC, BLACK);
 	}
 	if (activity.equals("Away")) {
 		setAnimation(0, FX_MODE_STATIC, YELLOW);
